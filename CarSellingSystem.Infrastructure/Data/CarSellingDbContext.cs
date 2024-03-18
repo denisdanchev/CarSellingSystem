@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarSellingSystem.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class CarSellingDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public CarSellingDbContext(DbContextOptions<CarSellingDbContext> options)
             : base(options)
         {
         }
