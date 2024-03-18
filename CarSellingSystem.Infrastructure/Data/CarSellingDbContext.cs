@@ -11,6 +11,24 @@ namespace CarSellingSystem.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Vehicle>()
+                .HasOne(v => v.Type)
+                .WithMany(c => c.Vehicles)
+                .HasForeignKey(h => h.TypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Entity<Vehicle>()
+                .HasOne(v => v.Seller)
+                .WithMany(c => c.Vehicles)
+                .HasForeignKey(h => h.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(builder);
+        }
+
         DbSet<Seller> Sellers { get; set; } = null!;
         DbSet<Vehicle> Vehicles { get; set; } = null!;
         DbSet<VehicleType> VehicleTypes { get; set; } = null!;

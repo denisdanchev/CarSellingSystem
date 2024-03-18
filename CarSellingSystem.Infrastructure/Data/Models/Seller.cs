@@ -25,6 +25,7 @@ namespace CarSellingSystem.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
 
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
     }
 }
