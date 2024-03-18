@@ -1,4 +1,4 @@
-using CarSellingSystem.Data;
+using CarSellingSystem.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
