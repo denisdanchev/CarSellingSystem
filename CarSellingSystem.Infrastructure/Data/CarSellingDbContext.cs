@@ -1,4 +1,5 @@
 ﻿using CarSellingSystem.Infrastructure.Data.Models;
+using CarSellingSystem.Infrastructure.Data.SeedDb;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,18 +14,11 @@ namespace CarSellingSystem.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Vehicle>()
-                .HasOne(v => v.Type)
-                .WithMany(c => c.Vehicles)
-                .HasForeignKey(h => h.TypeId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new AgentConfiguration());
+            builder.ApplyConfiguration(new VehicleConfiguration());
+            builder.ApplyConfiguration(new VehicleTypeConfiguration());
 
-
-            builder.Entity<Vehicle>()
-                .HasOne(v => v.Seller)
-                .WithMany(c => c.Vehicles)
-                .HasForeignKey(h => h.SellerId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }
