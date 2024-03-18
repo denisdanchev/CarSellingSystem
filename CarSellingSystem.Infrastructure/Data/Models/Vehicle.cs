@@ -5,48 +5,49 @@ using static CarSellingSystem.Infrastructure.Constants.DataConstants;
 
 namespace CarSellingSystem.Infrastructure.Data.Models
 {
-    [Comment("Car to sell")]
+    [Comment("Vehicle to sell")]
     public class Vehicle
     {
         [Key]
-        [Comment("Car Identifier")]
+        [Comment("Vehicle Identifier")]
         public int Id { get; set; }
 
         [Required]
-        [Comment("Car location")]
-        [MaxLength(CarLocationMaxLength)]
-        public string CarLocation { get; set; } = string.Empty;
+        [Comment("Vehicle location")]
+        [MaxLength(VehicleLocationMaxLength)]
+        public string VehicleLocation { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Car description")]
-        [MaxLength(CarDescriptionMaxLength)]
+        [Comment("Vehicle description")]
+        [MaxLength(VehicleDescriptionMaxLength)]
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Car Image URL")]
+        [Comment("Vehicle Image URL")]
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Car price")]
-        [Range(typeof(decimal),CarMaxPrice, CarMinPrice,ConvertValueInInvariantCulture = true)]
+        [Comment("Vehicle price")]
+        [Column(TypeName = "decimal(18,2)")]
+        //[Range(typeof(decimal),VehicleMaxPrice, VehicleMinPrice,ConvertValueInInvariantCulture = true)]
         public decimal Price { get; set; }
 
         [Required]
-        [Comment("Car type Identifier")]
+        [Comment("Vehicle type Identifier")]
         public int TypeId { get; set; }
 
         [ForeignKey(nameof(TypeId))]
         public VehicleType Type { get; set; } = null!;
 
         [Required]
-        [Comment("Car seller Identifier")]
+        [Comment("Vehicle seller Identifier")]
         public int SellerId { get; set; }
 
         [ForeignKey(nameof(SellerId))]
         public Seller Seller { get; set; } = null!;
 
         [Required]
-        [Comment("Car buyer Identifier")]
+        [Comment("Vehicle buyer Identifier")]
         public string? BuyerId { get; set; }
 
     }

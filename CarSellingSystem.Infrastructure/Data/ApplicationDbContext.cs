@@ -11,8 +11,8 @@ namespace CarSellingSystem.Infrastructure.Data
         {
         }
 
-        DbSet<Seller> Sellers { get; set; }
-        DbSet<Vehicle> Cars { get; set; }
-        DbSet<VehicleType> VehicleTypes { get; set; }
+        DbSet<Seller> Sellers { get; set; } = null!;
+        DbSet<Vehicle> Vehicles { get; set; } = null!;
+        DbSet<VehicleType> VehicleTypes { get; set; } = null!;
     }
 }

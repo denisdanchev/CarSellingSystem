@@ -4,7 +4,7 @@ using static CarSellingSystem.Infrastructure.Constants.DataConstants;
 
 namespace CarSellingSystem.Infrastructure.Data.Models
 {
-    [Comment("Car type")]
+    [Comment("Vehicle type")]
     public class VehicleType
     {
         [Key]
@@ -12,9 +12,9 @@ namespace CarSellingSystem.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(TypeNameMaxLength)]
+        [MaxLength(VehicleTypeNameMaxLength)]
         public string Name { get; set; } = string.Empty;
 
-        public List<Vehicle> Cars { get; set; } = new List<Vehicle>();
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
 }

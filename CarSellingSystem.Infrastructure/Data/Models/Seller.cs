@@ -6,15 +6,15 @@ using static CarSellingSystem.Infrastructure.Constants.DataConstants;
 
 namespace CarSellingSystem.Infrastructure.Data.Models
 {
-    [Comment("Car seller")]
+    [Comment("Vehicle seller")]
     public class Seller
     {
         [Key]
-        [Comment("Selelr Identifier")]
+        [Comment("Seller Identifier")]
         public int Id { get; set; }
 
         [Required]
-        [Comment("Car seller phone")]
+        [Comment("Vehicle seller phone")]
         [MaxLength(SellerPhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = string.Empty;
 
