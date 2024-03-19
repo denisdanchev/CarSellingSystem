@@ -1,4 +1,5 @@
-﻿using CarSellingSystem.Models;
+﻿using CarSellingSystem.Core.Models.Home;
+using CarSellingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,9 @@ namespace CarSellingSystem.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+
+            return View(model);
         }
 
 
