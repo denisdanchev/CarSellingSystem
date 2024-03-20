@@ -21,7 +21,7 @@ namespace CarSellingSystem.Infrastructure.Data.SeedDb
             SeedUsers();
             SeedAgent();
             SeedCategories();
-            SeedHouses();
+            SeedVehicles();
         }
 
 
@@ -85,14 +85,15 @@ namespace CarSellingSystem.Infrastructure.Data.SeedDb
             };
         }
 
-        private void SeedHouses()
+        private void SeedVehicles()
         {
             FirstVehicle = new Vehicle()
             {
                 Id = 1,
                 VehicleLocation = "Sofia, BG(to the airport)",
+                Title = "Honda CBR 600 2020",
                 Description = "The condition is perfect. New tyres, new oil and filters.",
-                ImageUrl = "https://en.wikipedia.org/wiki/Honda_CBR600RR#/media/File:2006HondaCBR600RR-001.jpghttps://en.wikipedia.org/wiki/Honda_CBR600RR#/media/File:2006HondaCBR600RR-001.jpg",
+                ImageUrl = "https://www.gpone.com/sites/default/files/images/2020/article/foto/08/Moto%20-%20News/generic/hondacbr600rr-1598082277.jpg",
                 Price = 11299.00M,
                 TypeId = Motorcycle.Id,
                 SellerId = Seller.Id,
@@ -103,6 +104,7 @@ namespace CarSellingSystem.Infrastructure.Data.SeedDb
             {
                 Id = 2,
                 VehicleLocation = "Burgas, BG(Knyazhevo)",
+                Title = "Audi A4 QUATTRO",
                 Description = "The car is perfect. Two manths ago the steering rack was recycled and the rear suspension are changed.",
                 ImageUrl = "https://media.ed.edmunds-media.com/audi/a4/2010/oem/2010_audi_a4_wagon_20t-avant-premium-quattro_fq_oem_1_500.jpg",
                 Price = 15999.00M,
@@ -114,10 +116,11 @@ namespace CarSellingSystem.Infrastructure.Data.SeedDb
             ThirdVehicle = new Vehicle()
             {
                 Id = 3,
-                VehicleLocation = "Burgas, BG(Knyazhevo)",
-                Description = "The car is perfect. Two manths ago the steering rack was recycled and the rear suspension are changed.",
+                VehicleLocation = "St. Zagora, BG(Lipovo)",
+                Title = "Mercedes Vito w639",
+                Description = "The bus is perfect. It has only 30000km on odometer.",
                 ImageUrl = "https://st.mascus.com/imagetilewm/product/autocasiones/mercedes-benz-vito-tourer-116,5289716_1.jpg",
-                Price = 15999.00M,
+                Price = 24999.00M,
                 TypeId = Bus.Id,
                 SellerId = Seller.Id,
                 BuyerId = GuestUser.Id
