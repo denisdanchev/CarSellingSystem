@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarSellingSystem.Infrastructure.Data
 {
-    public class CarSellingDbContext : IdentityDbContext
+    public class VehicleSellingDbContext : IdentityDbContext
     {
-        public CarSellingDbContext(DbContextOptions<CarSellingDbContext> options)
+        public VehicleSellingDbContext(DbContextOptions<VehicleSellingDbContext> options)
             : base(options)
         {
         }

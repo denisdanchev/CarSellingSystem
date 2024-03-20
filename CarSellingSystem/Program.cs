@@ -1,16 +1,24 @@
+using CarSellingSystem.Core.Contracts;
+using CarSellingSystem.Core.Services;
 using CarSellingSystem.Infrastructure.Data;
+using CarSellingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CarSellingDbContext>(options =>
+builder.Services.AddDbContext<VehicleSellingDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IRepository, Repository>();
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<CarSellingDbContext>();
+    .AddEntityFrameworkStores<VehicleSellingDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

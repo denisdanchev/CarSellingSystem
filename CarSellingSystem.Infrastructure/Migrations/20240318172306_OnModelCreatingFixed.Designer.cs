@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarSellingSystem.Infrastructure.Migrations
 {
-    [DbContext(typeof(CarSellingDbContext))]
+    [DbContext(typeof(VehicleSellingDbContext))]
     [Migration("20240318172306_OnModelCreatingFixed")]
     partial class OnModelCreatingFixed
     {

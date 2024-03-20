@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarSellingSystem.Infrastructure.Migrations
 {
-    [DbContext(typeof(CarSellingDbContext))]
+    [DbContext(typeof(VehicleSellingDbContext))]
     [Migration("20240318171139_DomainTablesAdded")]
     partial class DomainTablesAdded
     {
