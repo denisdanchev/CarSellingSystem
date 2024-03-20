@@ -14,7 +14,7 @@ namespace CarSellingSystem.Core.Services
             repository = _repository;
         }
 
-        public async Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicle()
+        public async Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicleAsync()
         {
             return await repository.
                 AllReadOnly<Infrastructure.Data.Models.Vehicle>()

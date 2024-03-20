@@ -22,7 +22,7 @@ namespace CarSellingSystem.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var model = await vehicleService.LastThreeVehicle();
+            var model = await vehicleService.LastThreeVehicleAsync();
 
             return View(model);
         }

@@ -6,6 +6,7 @@ using static CarSellingSystem.Infrastructure.Constants.DataConstants;
 
 namespace CarSellingSystem.Infrastructure.Data.Models
 {
+    [Index(nameof(PhoneNumber), IsUnique = true)]
     [Comment("Vehicle seller")]
     public class Seller
     {

@@ -1,5 +1,6 @@
 ﻿using CarSellingSystem.Core.Contracts;
 using CarSellingSystem.Core.Models.Seller;
+using CarSellingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,11 @@ namespace CarSellingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Become()
         {
+            if (await sellerService.ExistByIdAsync(User.Id()))
+            {
+                return BadRequest();
+            }
+
             var model = new BecomeSellerFormModel();
 
             return View(model);

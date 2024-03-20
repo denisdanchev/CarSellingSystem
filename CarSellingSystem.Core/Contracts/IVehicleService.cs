@@ -4,6 +4,6 @@ namespace CarSellingSystem.Core.Contracts
 {
     public interface IVehicleService
     {
-        Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicle();
+        Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicleAsync();
     }
 }
