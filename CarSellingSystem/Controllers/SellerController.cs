@@ -1,7 +1,6 @@
 ﻿using CarSellingSystem.Core.Contracts;
 using CarSellingSystem.Core.Models.Seller;
 using CarSellingSystem.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSellingSystem.Controllers
