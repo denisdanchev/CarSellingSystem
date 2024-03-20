@@ -1,7 +1,7 @@
 ﻿using CarSellingSystem.Core.Contracts;
 using CarSellingSystem.Core.Models.Home;
-using CarSellingSystem.Infrastructure.Data;
 using CarSellingSystem.Infrastructure.Data.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarSellingSystem.Core.Services
 {
@@ -14,9 +14,20 @@ namespace CarSellingSystem.Core.Services
             repository = _repository;
         }
 
-        public Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicle()
+        public async Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicle()
         {
-            throw new NotImplementedException();
+            return await repository.
+                AllReadOnly<Infrastructure.Data.Models.Vehicle>()
+                .OrderByDescending(v => v.Id)
+                .Take(3)
+                .Select(v => new VehicleIndexServiceModel()
+                {
+                    Id = v.Id,
+                    ImageUrl = v.ImageUrl,
+                    Title = v.Title
+
+                })
+                .ToListAsync();
         }
     }
 }
