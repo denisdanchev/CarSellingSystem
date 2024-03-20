@@ -12,6 +12,9 @@
         public const int VehicleDescriptionMaxLength = 1000;
         public const int VehicleDescriptionMinLength = 50;
 
+        public const int VehicleTitleMaxLength = 30;
+        public const int VehicleTitleMinLength = 3;
+
 
         public const string VehicleMaxPrice = "9999999.00";
         public const string VehicleMinPrice = "1.00";

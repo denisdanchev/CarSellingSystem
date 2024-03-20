@@ -18,6 +18,12 @@ namespace CarSellingSystem.Infrastructure.Data.Models
         public string VehicleLocation { get; set; } = string.Empty;
 
         [Required]
+        [Comment("Vehicle Title")]
+        [MaxLength(VehicleTitleMaxLength)]
+        public string Title { get; set; } = string.Empty;
+
+
+        [Required]
         [Comment("Vehicle description")]
         [MaxLength(VehicleDescriptionMaxLength)]
         public string Description { get; set; } = string.Empty;
