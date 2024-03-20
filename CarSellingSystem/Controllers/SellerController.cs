@@ -1,10 +1,18 @@
-﻿using CarSellingSystem.Core.Models.Seller;
+﻿using CarSellingSystem.Core.Contracts;
+using CarSellingSystem.Core.Models.Seller;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSellingSystem.Controllers
 {
-    public class SellerController : Controller
+    public class SellerController : BaseController
     {
+        private readonly ISellerService sellerService;
+
+        public SellerController(ISellerService _sellerService)
+        {
+            sellerService = _sellerService;
+        }
         [HttpGet]
         public async Task<IActionResult> Become()
         {

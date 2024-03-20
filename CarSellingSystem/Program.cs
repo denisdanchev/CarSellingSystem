@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<ISellerService, SellerService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<VehicleSellingDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IRepository, Repository>();
+
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
