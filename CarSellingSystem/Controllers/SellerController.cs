@@ -1,7 +1,9 @@
-﻿using CarSellingSystem.Core.Contracts;
+﻿using CarSellingSystem.Attributes;
+using CarSellingSystem.Core.Contracts;
 using CarSellingSystem.Core.Models.Seller;
 using CarSellingSystem.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using static CarSellingSystem.Core.Constants.MessageConstants;
 
 namespace CarSellingSystem.Controllers
 {
@@ -13,22 +15,35 @@ namespace CarSellingSystem.Controllers
         {
             sellerService = _sellerService;
         }
-        [HttpGet]
-        public async Task<IActionResult> Become()
-        {
-            if (await sellerService.ExistByIdAsync(User.Id()))
-            {
-                return BadRequest();
-            }
 
+        [HttpGet]
+        [NotASeller]
+        public IActionResult Become()
+        {
             var model = new BecomeSellerFormModel();
 
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
+        [NotASeller]
         public async Task<IActionResult> Become(BecomeSellerFormModel model)
         {
+            if (await sellerService.UserWithPhoneNumberExistsAsync(User.Id())) 
+            {
+                ModelState.AddModelError(nameof(model.PhoneNumber), PhoneExists);
+            }
+            if (await sellerService.UserHasSellsAsync(User.Id()))
+            {
+                ModelState.AddModelError("Error", HasSells);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            await sellerService.CreateAsync(User.Id(), model.PhoneNumber);
             return RedirectToAction(nameof(VehicleController.All), "Vehicle");
         }
             
