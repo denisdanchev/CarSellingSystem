@@ -13,9 +13,15 @@ namespace CarSellingSystem.Core.Services
             repository = _repository;
         }
 
-        public Task CreateAsync(string userId, string phoneNumber)
+        public async Task CreateAsync(string userId, string phoneNumber)
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Seller()
+            { 
+                UserId = userId,
+                PhoneNumber = phoneNumber
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistByIdAsync(string userId)
@@ -24,14 +30,16 @@ namespace CarSellingSystem.Core.Services
                   .AnyAsync(a => a.UserId == userId);
         }
 
-        public Task<bool> UserHasSellsAsync(string userId)
+        public async Task<bool> UserHasSellsAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Vehicle>()
+                 .AnyAsync(v => v.BuyerId == userId);
         }
 
-        public Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
+        public async Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Seller>()
+                .AnyAsync(s => s.PhoneNumber == phoneNumber);
         }
     }
 }
