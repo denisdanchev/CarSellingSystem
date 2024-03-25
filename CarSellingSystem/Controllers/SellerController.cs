@@ -29,7 +29,7 @@ namespace CarSellingSystem.Controllers
         [NotASeller]
         public async Task<IActionResult> Become(BecomeSellerFormModel model)
         {
-            if (await sellerService.UserWithPhoneNumberExistsAsync(User.Id())) 
+            if (await sellerService.UserWithPhoneNumberExistsAsync(model.PhoneNumber)) 
             {
                 ModelState.AddModelError(nameof(model.PhoneNumber), PhoneExists);
             }
