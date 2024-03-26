@@ -8,6 +8,7 @@
         Task<bool> UserHasSellsAsync(string userId);
         Task CreateAsync(string userId, string phoneNumber);
 
+        Task<int?> GetSellerIdAsync(string userId);
 
     }
 }

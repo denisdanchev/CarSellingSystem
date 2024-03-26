@@ -30,6 +30,12 @@ namespace CarSellingSystem.Core.Services
                   .AnyAsync(a => a.UserId == userId);
         }
 
+        public async Task<int?> GetSellerIdAsync(string userId)
+        {
+            return (await repository.AllReadOnly<Seller>()
+                .FirstOrDefaultAsync(s => s.UserId == userId))?.Id;
+        }
+
         public async Task<bool> UserHasSellsAsync(string userId)
         {
             return await repository.AllReadOnly<Vehicle>()

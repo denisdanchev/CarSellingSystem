@@ -1,11 +1,23 @@
-﻿using CarSellingSystem.Core.Models.Vehicle;
+﻿using CarSellingSystem.Attributes;
+using CarSellingSystem.Core.Contracts;
+using CarSellingSystem.Core.Models.Vehicle;
+using CarSellingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml;
 
 namespace CarSellingSystem.Controllers
 {
     public class VehicleController : BaseController
     {
+        private readonly IVehicleService vehicleService;
+        private readonly ISellerService sellerService;
+        public VehicleController(IVehicleService _vehicleService, ISellerService _sellerService)
+        {
+            vehicleService = _vehicleService;
+            sellerService = _sellerService;
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
@@ -32,15 +44,38 @@ namespace CarSellingSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        [MustBeSeller]
+        public async Task<IActionResult> Add()
         {
-            return View();
+            var model = new VehicleFormModel()
+            {
+                Types = await vehicleService.AllTypesAsync()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(VehicleDetailsViewModel model)
+        [MustBeSeller]
+        public async Task<IActionResult> Add(VehicleFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = 1 });
+
+            if (await vehicleService.TypesExistsAsync(model.TypeId) == false)
+            {
+                ModelState.AddModelError(nameof(model.TypeId), "");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Types = await vehicleService.AllTypesAsync();
+
+                return View(model);
+            }
+
+            int? sellerId = await sellerService.GetSellerIdAsync(User.Id());
+
+            int newVehicleId = await vehicleService.CeateAsync(model,sellerId ?? 0);
+            return RedirectToAction(nameof(Details), new { id = newVehicleId });
         }
 
         [HttpGet]
