@@ -27,7 +27,7 @@ namespace CarSellingSystem.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<int> CeateAsync(VehicleFormModel model)
+        public async Task<int> CeateAsync(VehicleFormModel model, int agentId)
         {
             Vehicle vehicle = new Vehicle()
             {
