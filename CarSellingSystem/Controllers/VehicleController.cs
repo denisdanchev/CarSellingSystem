@@ -20,11 +20,20 @@ namespace CarSellingSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllVehicleQueryModel query)
         {
-            var model = new AllVehicleQueryModel();
+            var model = await vehicleService.AllAsync(
+                query.VehicleType,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurentPage,
+                query.VehiclesPerPage);
 
-            return View();
+            query.TotalVehiclesCount = model.TotalVehiclesCount;
+            query.Vehicles = model.Vehicle;
+            query.Types = await vehicleService.AllCategoriesNamesAsync();
+
+            return View(query);
         }
 
         [HttpGet]

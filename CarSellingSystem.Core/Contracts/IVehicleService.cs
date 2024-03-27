@@ -1,4 +1,5 @@
-﻿using CarSellingSystem.Core.Models.Home;
+﻿using CarSellingSystem.Core.Enumerations;
+using CarSellingSystem.Core.Models.Home;
 using CarSellingSystem.Core.Models.Vehicle;
 
 namespace CarSellingSystem.Core.Contracts
@@ -10,6 +11,16 @@ namespace CarSellingSystem.Core.Contracts
 
         Task<bool> TypesExistsAsync(int typeId);
         Task<int> CeateAsync(VehicleFormModel model, int agentId);
+
+        Task<VehicleServiceQueryModel> AllAsync(
+            string? type = null,
+            string? searchedItem = null,
+            VehicleSorting sorting = VehicleSorting.Newesst,
+            int currentPade = 1,
+                int vehiclesPerPage = 1
+            );
+
+        Task<IEnumerable<string>> AllCategoriesNamesAsync();
 
     }
 }
