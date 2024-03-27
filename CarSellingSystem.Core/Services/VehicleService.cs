@@ -5,6 +5,7 @@ using CarSellingSystem.Core.Models.Vehicle;
 using CarSellingSystem.Infrastructure.Data.Common;
 using CarSellingSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System.Numerics;
 
@@ -51,15 +52,8 @@ namespace CarSellingSystem.Core.Services
             var vehicles = await vehiclesToShow
                 .Skip((currentPade - 1) * vehiclesPerPage)
                 .Take(vehiclesPerPage)
-                .Select(v => new VehicleServiceModel()
-                {
-                    Id= v.Id,
-                    Location =  v.VehicleLocation,
-                    ImageUrl = v.ImageUrl,
-                    IsSelled = v.BuyerId != null,
-                    Price = v.Price,
-                    Title = v.Title
-                }).ToListAsync();
+                .ProjectToVehicleServiceModel()
+                .ToListAsync();
 
             int totalVehicles = await vehiclesToShow.CountAsync();
 
@@ -89,6 +83,22 @@ namespace CarSellingSystem.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<VehicleServiceModel>> AllVehiclesBySellerId(int sellerId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .Where(v => v.SellerId == sellerId)
+                .ProjectToVehicleServiceModel()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<VehicleServiceModel>> AllVehiclesByUserId(int userId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+               .Where(v => v.SellerId == userId)
+               .ProjectToVehicleServiceModel()
+               .ToListAsync();
+        }
+
         public async Task<int> CeateAsync(VehicleFormModel model, int agentId)
         {
             Vehicle vehicle = new Vehicle()
@@ -104,6 +114,12 @@ namespace CarSellingSystem.Core.Services
             await repository.SaveChangesAsync();
 
             return vehicle.Id;
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                        .AnyAsync(v => v.Id == id);
         }
 
         public async Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicleAsync()
@@ -126,6 +142,30 @@ namespace CarSellingSystem.Core.Services
         {
             return await repository.AllReadOnly<VehicleType>()
                 .AnyAsync(t => t.Id == typeId);
+        }
+
+        public async Task<VehicleDetailsServiceModel> VehicleDetailsByIdAsync(int id)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .Where(v => v.Id == id)
+                .Select(v => new VehicleDetailsServiceModel()
+                {
+                    Id = v.Id,
+                    Location = v.VehicleLocation,
+                    Seller = new Models.Seller.SellerServiceModel()
+                    { 
+                        Email = v.Seller.User.Email,
+                        PhoneNumber = v.Seller.PhoneNumber,
+                    },
+                    VehicleType = v.Type.Name,
+                    Description = v.Description,
+                    ImageUrl = v.ImageUrl,
+                    IsSelled = v.SellerId != null,
+                    Price = v.Price,
+                    Title = v.Title,
+                })
+                .FirstAsync(); 
+                
         }
     }
 }

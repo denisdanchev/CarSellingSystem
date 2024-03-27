@@ -22,5 +22,14 @@ namespace CarSellingSystem.Core.Contracts
 
         Task<IEnumerable<string>> AllCategoriesNamesAsync();
 
+        Task<IEnumerable<VehicleServiceModel>> AllVehiclesBySellerId(int sellerId);
+        Task<IEnumerable<VehicleServiceModel>> AllVehiclesByUserId(int userId);
+
+        Task<bool> ExistsAsync(int id);
+
+        Task<VehicleDetailsServiceModel> VehicleDetailsByIdAsync(int id);
+
+
+
     }
 }

@@ -38,8 +38,20 @@ namespace CarSellingSystem.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Mine()
-        {
-            var model = new AllVehicleQueryModel();
+        {   
+            var userId = User.Id();
+            IEnumerable<VehicleServiceModel> model;
+
+            if ( await sellerService.ExistByIdAsync(userId))
+            {
+
+                int sellerId = await sellerService.GetSellerIdAsync(userId) ?? 0;
+                model = await vehicleService.AllVehiclesBySellerId(sellerId);
+            }
+            else
+            {
+                model = await vehicleService.AllVehiclesByUserId(int.Parse(userId));
+            }    
 
             return View(model);
         }
@@ -47,7 +59,13 @@ namespace CarSellingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new VehicleDetailsViewModel();
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var model = await vehicleService.VehicleDetailsByIdAsync(id);
+
 
             return View(model);
         }

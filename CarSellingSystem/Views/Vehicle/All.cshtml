@@ -60,7 +60,7 @@
 <div class="row mb-5">
     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
         <a class="btn btn-primary @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="House"
+           asp-controller="Vehicle"
            asp-action="All"
            asp-route-currentPage="@previousPage"
            asp-route-category="@Model.VehicleType"
@@ -76,7 +76,7 @@
     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary 
            @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-           asp-controller="House"
+           asp-controller="Vehicle"
            asp-action="All"
            asp-route-currentPage="@(Model.CurentPage + 1)"
            asp-route-category="@Model.VehicleType"
