@@ -29,7 +29,11 @@ namespace CarSellingSystem.Core.Contracts
 
         Task<VehicleDetailsServiceModel> VehicleDetailsByIdAsync(int id);
 
+        Task EditAsync(int vehicleId, VehicleFormModel model);
 
+        Task<bool> HasSellerWithIdAsync(int vehicleId, string userId);
+
+        Task<VehicleFormModel?> GetVehicleFormModelByIdAsync(int id);
 
     }
 }

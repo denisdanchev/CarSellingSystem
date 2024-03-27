@@ -89,7 +89,7 @@ namespace CarSellingSystem.Controllers
 
             if (await vehicleService.TypesExistsAsync(model.TypeId) == false)
             {
-                ModelState.AddModelError(nameof(model.TypeId), "");
+                ModelState.AddModelError(nameof(model.TypeId), "Type does not exist");
             }
 
             if (ModelState.IsValid == false)
@@ -108,7 +108,15 @@ namespace CarSellingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new VehicleFormModel();
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            if (await vehicleService.HasSellerWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+            var model = await vehicleService.GetVehicleFormModelByIdAsync(id);
 
             return View(model);
         }
@@ -116,7 +124,30 @@ namespace CarSellingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, VehicleFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = 1 });
+            if (await vehicleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            if (await vehicleService.HasSellerWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+            if (await vehicleService.TypesExistsAsync(model.TypeId) == false)
+            {
+                ModelState.AddModelError(nameof(model.TypeId), "Type does not exist");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Types = await vehicleService.AllTypesAsync();
+
+                return View(model);
+            }
+
+            await vehicleService.EditAsync(id,model);
+
+            return RedirectToAction(nameof(Details), new { id });
+
         }
 
         [HttpGet]

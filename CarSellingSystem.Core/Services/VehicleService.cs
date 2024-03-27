@@ -103,11 +103,11 @@ namespace CarSellingSystem.Core.Services
         {
             Vehicle vehicle = new Vehicle()
             {
-               Title = model.Title,
-               VehicleLocation = model.Location,
-               Description = model.Description,
-               ImageUrl = model.ImageUrl,
-               Price = model.Price
+                Title = model.Title,
+                VehicleLocation = model.Location,
+                Description = model.Description,
+                ImageUrl = model.ImageUrl,
+                Price = model.Price
             };
 
             await repository.AddAsync(vehicle);
@@ -116,10 +116,56 @@ namespace CarSellingSystem.Core.Services
             return vehicle.Id;
         }
 
+        public async Task EditAsync(int vehicleId, VehicleFormModel model)
+        {
+            var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
+
+            if (vehicle != null)
+            {
+                vehicle.VehicleLocation = model.Location;
+                vehicle.TypeId = model.TypeId;
+                vehicle.Description = model.Description;
+                vehicle.ImageUrl = model.ImageUrl;
+                vehicle.Price = model.Price;
+                vehicle.Title = model.Title;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
         public async Task<bool> ExistsAsync(int id)
         {
             return await repository.AllReadOnly<Vehicle>()
                         .AnyAsync(v => v.Id == id);
+        }
+
+        public async Task<VehicleFormModel?> GetVehicleFormModelByIdAsync(int id)
+        {
+            var vehicle = await repository.AllReadOnly<Vehicle>()
+                .Where(v => v.Id == id)
+                .Select(v => new VehicleFormModel()
+                {
+                    Location = v.VehicleLocation,
+                    TypeId = v.TypeId,
+                    Description = v.Description,
+                    ImageUrl = v.ImageUrl,
+                    Price = v.Price,
+                    Title = v.Title,
+                })
+                .FirstOrDefaultAsync();
+            if (vehicle != null)
+            {
+                vehicle.Types = await AllTypesAsync();
+            }
+
+
+            return vehicle;
+        }
+
+        public async Task<bool> HasSellerWithIdAsync(int vehicleId, string userId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .AnyAsync(v => v.Id == vehicleId && v.Seller.UserId == userId);
         }
 
         public async Task<IEnumerable<VehicleIndexServiceModel>> LastThreeVehicleAsync()
@@ -153,7 +199,7 @@ namespace CarSellingSystem.Core.Services
                     Id = v.Id,
                     Location = v.VehicleLocation,
                     Seller = new Models.Seller.SellerServiceModel()
-                    { 
+                    {
                         Email = v.Seller.User.Email,
                         PhoneNumber = v.Seller.PhoneNumber,
                     },
@@ -164,8 +210,7 @@ namespace CarSellingSystem.Core.Services
                     Price = v.Price,
                     Title = v.Title,
                 })
-                .FirstAsync(); 
-                
+                .FirstAsync();
         }
     }
 }
